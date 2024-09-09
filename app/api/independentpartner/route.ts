@@ -93,8 +93,18 @@ export async function POST(req: Request): Promise<NextResponse> {
 
 export async function GET(): Promise<NextResponse> {
   try {
-    const independentPartner = await prisma.independentPartnerInfo.findMany();
-    return NextResponse.json({ independentPartner }, { status: 200 });
+    const independentPartners = await prisma.independentPartnerInfo.findMany({
+      include: {
+        personalInfo: {
+          include: {
+            contactInfo: true,
+            addressInfo: true,
+          },
+        },
+      },
+    });
+
+    return NextResponse.json({ independentPartners }, { status: 200 });
   } catch (error: any) {
     console.error(
       "Error retrieving independentPartner:",
