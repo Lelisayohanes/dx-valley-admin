@@ -39,6 +39,24 @@ const SidebarNavItem = ({
   </Link>
 );
 
+const SidebarDropdownItem = ({
+  href,
+  label,
+  icon: Icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ElementType;
+}) => (
+  <Link
+    href={href}
+    className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100"
+  >
+    <Icon className="h-4 w-4" />
+    {label}
+  </Link>
+);
+
 const UserDropdown = () => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -70,10 +88,26 @@ const Sidebar = () => (
       <div className="flex-1">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <SidebarNavItem href="#" label="Dashboard" icon={Home} active />
-          <SidebarNavItem href="/admin/dashboard/event" label="Event" icon={Package} />
-          <SidebarNavItem href="/admin/dashboard/contactus" label="Contact Submissions" icon={BookUser} />
-
-          
+          <SidebarNavItem href="/dashboard/event" label="Event" icon={Package} />
+          <SidebarNavItem href="/dashboard/contactus" label="Contact Submissions" icon={BookUser} />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarNavItem href="#" label="Organization" icon={BookUser} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Organization</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <SidebarDropdownItem href="/organization/overview" label="Overview" icon={BookUser} />
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <SidebarDropdownItem href="/organization/teams" label="Teams" icon={BookUser} />
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <SidebarDropdownItem href="/organization/reports" label="Reports" icon={BookUser} />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
       </div>
     </div>
