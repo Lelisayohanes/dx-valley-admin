@@ -88,7 +88,12 @@ export async function POST(req: Request): Promise<NextResponse> {
 
 export async function GET(): Promise<NextResponse> {
   try {
-    const media = await prisma.mediaInfo.findMany();
+    const media = await prisma.mediaInfo.findMany({
+      include: {
+        contactInfo: true,
+        addressInfo: true,
+      },
+    });
     return NextResponse.json({ media }, { status: 200 });
   } catch (error: any) {
     console.error(
