@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { CircleUser, Home, Menu, Package, ShieldCheck,BookUser } from "lucide-react";
+import {
+  CircleUser,
+  Home,
+  Menu,
+  Package,
+  ShieldCheck,
+  BookUser,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "@/components/modeToggle";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -70,10 +78,16 @@ const Sidebar = () => (
       <div className="flex-1">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <SidebarNavItem href="#" label="Dashboard" icon={Home} active />
-          <SidebarNavItem href="/admin/dashboard/event" label="Event" icon={Package} />
-          <SidebarNavItem href="/admin/dashboard/contactus" label="Contact Submissions" icon={BookUser} />
-
-          
+          <SidebarNavItem
+            href="/dashboard/event"
+            label="Event"
+            icon={Package}
+          />
+          <SidebarNavItem
+            href="/dashboard/contactus"
+            label="Contact Submissions"
+            icon={BookUser}
+          />
         </nav>
       </div>
     </div>
@@ -105,6 +119,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <MobileSidebar />
           <div className="w-full flex-1"></div>
+          <ModeToggle />
           <UserDropdown />
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">

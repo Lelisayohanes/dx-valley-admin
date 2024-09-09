@@ -1,5 +1,5 @@
-import { Event, columns } from "@/components/events/event-table-columns"
-import { DataTable } from "@/components/events/events-data-table"
+import { Event, columns } from "@/components/events/event-table-columns";
+import { DataTable } from "@/components/events/events-data-table";
 
 async function getData(): Promise<Event[]> {
   return [
@@ -59,19 +59,15 @@ async function getData(): Promise<Event[]> {
       category: "contest",
       targetDate: new Date(),
     },
-    
-    
   ];
-
 }
 
 export default async function EventPage() {
-  const data = await getData()
+  const data = await getData();
 
   return (
     <div className="container mx-auto pt-0 ">
       <DataTable columns={columns} data={data} />
     </div>
-  )
+  );
 }
-
