@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { CircleUser, Home, Menu, Package, ShieldCheck,BookUser } from "lucide-react";
+import {
+  CircleUser,
+  Home,
+  Menu,
+  Package,
+  ShieldCheck,
+  BookUser,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -70,10 +77,16 @@ const Sidebar = () => (
       <div className="flex-1">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <SidebarNavItem href="#" label="Dashboard" icon={Home} active />
-          <SidebarNavItem href="/admin/dashboard/event" label="Event" icon={Package} />
-          <SidebarNavItem href="/admin/dashboard/contactus" label="Contact Submissions" icon={BookUser} />
-
-          
+          <SidebarNavItem
+            href="/dashboard/event"
+            label="Event"
+            icon={Package}
+          />
+          <SidebarNavItem
+            href="/dashboard/contactus"
+            label="Contact Submissions"
+            icon={BookUser}
+          />
         </nav>
       </div>
     </div>
