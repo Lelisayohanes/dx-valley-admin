@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ModeToggle } from "@/components/modeToggle";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -118,6 +119,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
           <MobileSidebar />
           <div className="w-full flex-1"></div>
+          <ModeToggle />
           <UserDropdown />
         </header>
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
