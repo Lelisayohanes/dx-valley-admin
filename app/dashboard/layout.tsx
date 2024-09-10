@@ -6,6 +6,11 @@ import {
   Package,
   ShieldCheck,
   BookUser,
+  Building2,
+  Contact2,
+  Handshake,
+  SquarePlay,
+  PersonStanding
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -86,7 +91,27 @@ const Sidebar = () => (
           <SidebarNavItem
             href="/dashboard/contactus"
             label="Contact Submissions"
-            icon={BookUser}
+            icon={Contact2}
+          />
+           <SidebarNavItem
+            href="/dashboard/organization"
+            label="Organizations"
+            icon={Building2}
+          />
+          <SidebarNavItem
+            href="/dashboard/media"
+            label="Media"
+            icon={SquarePlay}
+          />
+          <SidebarNavItem
+            href="/dashboard/ip"
+            label="Independent Partner"
+            icon={Handshake}
+          />
+          <SidebarNavItem
+            href="/dashboard/trainers"
+            label="Trainers"
+            icon={PersonStanding}
           />
         </nav>
       </div>
