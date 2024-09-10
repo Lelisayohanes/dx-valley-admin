@@ -254,7 +254,7 @@ model OrganizationInfo {
 
   // Relationships
   contactInfo  ContactInfo[] // One-to-Many: Multiple ContactInfo
-  addressInfo  AddressInfo[]? // One-to-Many: Multiple AddressInfo
+  addressInfo  AddressInfo[] // One-to-Many: Multiple AddressInfo
   documentInfo DocumentInfo[] // One-to-Many: Multiple DocumentInfo
   PersonalInfo PersonalInfo?
 }
@@ -269,7 +269,7 @@ model PersonalInfo {
 
   // Relationships
   contactInfo        ContactInfo[] // One-to-Many: Multiple ContactInfo
-  addressInfo        AddressInfo[]? // One-to-Many: Multiple AddressInfo
+  addressInfo        AddressInfo[] // One-to-Many: Multiple AddressInfo
   documentInfo       DocumentInfo[] // One-to-Many: Multiple DocumentInfo
   organizationInfo   OrganizationInfo? @relation(fields: [organizationInfoId], references: [id]) // One-to-One: OrganizationInfo
   organizationInfoId Int?              @unique // Foreign key to OrganizationInfo
@@ -361,7 +361,7 @@ model MediaInfo {
 
   // Relationships
   contactInfo  ContactInfo[] // One-to-Many: Multiple ContactInfo
-  addressInfo  AddressInfo[]? // One-to-Many: Multiple AddressInfo
+  addressInfo  AddressInfo[] // One-to-Many: Multiple AddressInfo
   documentInfo DocumentInfo[] // One-to-Many: Multiple DocumentInfo
 }
 
