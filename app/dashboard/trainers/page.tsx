@@ -3,7 +3,6 @@ import { DataTable } from "@/components/trainers/trainers-data-table"
 import { OrganizationInfo } from "@prisma/client"
 
 
-// Example function to fetch and transform data from a database
 async function getData(): Promise<TrainersData[]> {
   const response = await fetch(`${process.env.SERVER_URL}/api/trainer`);
   
