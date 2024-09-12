@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,6 +37,8 @@ import { toast } from "sonner";
 export default function AdminEvent() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const router = useRouter();
+
   //   const [targetDate, setTargetDate] = useState("");
   const [targetDate, setTargetDate] = useState<Date | undefined>(undefined);
 
@@ -56,14 +58,15 @@ export default function AdminEvent() {
     });
 
     if (response.ok) {
-      alert("Registration successful!");
+      // alert("Registration successful!");
       toast.success("Registration successful!", {
         description: "Event has been submitted successfully.",
       });
       setName("");
       setDescription("");
       setTargetDate(undefined);
-      setCategory("");
+      setCategory("")
+      router.push('/dashboard/event');
     } else {
       const errorMessage = await response.json();
       console.error("Error:", errorMessage);
@@ -72,6 +75,7 @@ export default function AdminEvent() {
           errorMessage?.error.message ||
           "An error occurred during registration.",
       });
+      router.push('/dashboard/event');
     }
   };
 

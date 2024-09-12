@@ -29,7 +29,7 @@ export default async function EventPage() {
   const data = await getData()
 
   return (
-    <div className="container mx-auto pt-0 ">
+    <div className="container mx-auto pt-0 flex items-end justify-start">
       <DataTable columns={columns} data={data} />
     </div>
   )
