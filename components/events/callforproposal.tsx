@@ -56,7 +56,7 @@ export default function Callforproposal() {
               event={event}
               renderUI={false}
               onTimeLeftCalculated={(calculatedTimeLeft) =>
-                handleTimeLeftCalculated(event.id, calculatedTimeLeft)
+                handleTimeLeftCalculated(event.id.toString(), calculatedTimeLeft)
               }
             />
             <Card>
