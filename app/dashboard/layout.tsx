@@ -10,7 +10,8 @@ import {
   Contact2,
   Handshake,
   SquarePlay,
-  PersonStanding
+  PersonStanding,
+  Logs
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -113,6 +114,13 @@ const Sidebar = () => (
             label="Trainers"
             icon={PersonStanding}
           />
+
+          <SidebarNavItem
+          href="/dashboard/subscriber"
+          label="Subscriber"
+          icon={Logs}
+          />
+
         </nav>
       </div>
     </div>
