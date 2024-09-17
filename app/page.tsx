@@ -36,7 +36,7 @@ const Page = () => {
     },
   });
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    router.push("/admin/dashboard");
+    router.push("/dashboard");
   };
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-screen">

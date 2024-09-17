@@ -90,7 +90,12 @@ export async function POST(req: NextRequest) {
 
 export async function GET(): Promise<NextResponse> {
   try {
-    const Organizations = await prisma.organizationInfo.findMany();
+    const Organizations = await prisma.organizationInfo.findMany({
+      include: {
+        contactInfo: true,
+        addressInfo: true,
+      },
+    });
     return NextResponse.json({ Organizations }, { status: 200 });
   } catch (error: any) {
     console.error(

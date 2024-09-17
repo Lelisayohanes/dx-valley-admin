@@ -107,7 +107,16 @@ export async function POST(req: Request): Promise<NextResponse> {
 
 export async function GET(): Promise<NextResponse> {
   try {
-    const Trainers = await prisma.trainerInfo.findMany();
+    const Trainers = await prisma.trainerInfo.findMany({
+      include: {
+        personalInfo: {
+          include: {
+            contactInfo: true,
+            addressInfo: true,
+          },
+        },
+      },
+    });
     return NextResponse.json({ Trainers }, { status: 200 });
   } catch (error: any) {
     console.error(

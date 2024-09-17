@@ -227,29 +227,6 @@ const ApplyForIncubation = () => {
     }));
   };
 
-  // const validateStep = (step: number): Errors => {
-  //   let stepErrors: Errors = {};
-  //   switch (step) {
-  //     case 0:
-  //       if (!formData.startupName.trim())
-  //         stepErrors.startupName = "Startup name is required";
-  //       if (!formData.stage) stepErrors.stage = "Current stage is required";
-  //       break;
-  //     case 1:
-  //       if (formData.founderNames.some((name) => !name.trim()))
-  //         stepErrors.founderNames = "All founder names are required";
-  //       if (!formData.email.trim()) stepErrors.email = "Email is required";
-  //       else if (!/\S+@\S+\.\S+/.test(formData.email))
-  //         stepErrors.email = "Email is invalid";
-  //       if (!formData.phone.trim())
-  //         stepErrors.phone = "Phone number is required";
-  //       break;
-  //     case 2:
-  //       if (!formData.idea.trim()) stepErrors.idea = "Startup idea is required";
-  //       break;
-  //   }
-  //   return stepErrors;
-  // };
   const validateStep = (step: number): Errors => {
     let stepErrors: Errors = {};
 
@@ -460,7 +437,7 @@ const ApplyForIncubation = () => {
                 <div className="space-y-2">
                   <Label htmlFor="stage">Current Stage</Label>
                   <Select
-                    onValueChange={(value) => handleChange("stage", value)}
+                    onValueChange={(value:any) => handleChange("stage", value)}
                     value={formData.stage}
                   >
                     <SelectTrigger>
@@ -689,6 +666,7 @@ const ApplyForIncubation = () => {
               </div>
             )}
           </form>
+          </div>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button
