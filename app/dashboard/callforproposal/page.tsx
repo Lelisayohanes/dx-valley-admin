@@ -10,8 +10,9 @@ async function getData(): Promise<StartupsData[]> {
     }
 
     const data = await response.json();
-
+    console.log(data)
     // Transform the data
+    
     const startups: StartupsData[] = data.Startups.map((startup: any) => ({
       id: startup.id.toString(),
       startupName: startup.startupName,
@@ -19,9 +20,10 @@ async function getData(): Promise<StartupsData[]> {
       phone: startup.contactInfo[0]?.phoneNumberOne || '',
       ideaDescription: startup.ideaDescription || '',
       stage: startup.stage,
-      videoId: startup.videoId?.toString() || '',
-      documentpath: startup.documents.map((doc: any) => doc.id).join(", "),
+      videopath:startup.video[0]?.path || '',
+      documentpath: startup.documents.map((doc: any) => doc.path).join(", "),
     }));
+
 
     return startups;
   } catch (error) {

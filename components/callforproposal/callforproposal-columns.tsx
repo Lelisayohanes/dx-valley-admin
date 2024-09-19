@@ -11,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import VideoPlayer from "../video-player";
 
 export type StartupsData = {
   id: string;
@@ -21,7 +22,9 @@ export type StartupsData = {
   stage: string;
   videoId: string;
   documentpath: string;
+  videopath:string;
 };
+
 
 export const columns: ColumnDef<StartupsData>[] = [
   {
@@ -45,12 +48,23 @@ export const columns: ColumnDef<StartupsData>[] = [
     header: "Stage",
   },
   {
-    accessorKey: "videoId",
-    header: "Video ID",
+    id: "video",
+    header: "Video",
+    cell: ({ row }) => {
+      const startup = row.original;
+      console.log(startup.videopath)
+      // Pass the video path (videoId) directly to the VideoPlayer
+      return (
+        <VideoPlayer videoPath={startup.videopath} />
+      );
+    },
   },
   {
     accessorKey: "documentpath",
     header: "Document Path",
   },
-  // Additional action dropdown can be added here
 ];
+
+
+
+

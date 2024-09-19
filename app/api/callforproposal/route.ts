@@ -9,6 +9,7 @@ export async function GET(): Promise<NextResponse> {
       include: {
         contactInfo: true,
         documents: true,
+        video:true
       },
     });
     return NextResponse.json({ Startups }, { status: 200 });

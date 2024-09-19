@@ -123,7 +123,7 @@ const Sidebar = () => (
           />
 
             <SidebarNavItem
-            href="/dashboard/startups"
+            href="/dashboard/callforproposal"
             label="Startups"
             icon={Rocket}
           />
