@@ -222,6 +222,9 @@ model ContactInfo {
 
   startupInfoId Int?
   startupInfo   startupInfo? @relation(fields: [startupInfoId], references: [id])
+
+  internsInfoId Int?
+  internsInfo   internsInfo? @relation(fields: [internsInfoId], references: [id])
 }
 
 model AddressInfo {
@@ -265,6 +268,7 @@ model PersonalInfo {
   title     String?
   firstName String
   lastName  String
+  gender String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -294,6 +298,9 @@ model PersonalInfo {
 //relation with proposals
   startupInfoId Int?
   startupInfo   startupInfo? @relation(fields: [startupInfoId], references: [id])
+
+  internsInfoId Int?
+  internsInfo    internsInfo? @relation(fields: [internsInfoId], references: [id])
 }
 model startupInfo {
   id         Int      @id @default(autoincrement())
@@ -302,9 +309,11 @@ model startupInfo {
   ideaDescription String?
 
   //relation with video
+  // videoId Int? @unique
+  // VideoInfo   VideoInfo? @relation(fields: [videoId], references: [id])
   
+  video VideoInfo[]
   documents  DocumentInfo[] // Relation to the documents
-  video      VideoInfo[]
   contactInfo ContactInfo[] // One-to-Many: Multiple ContactInfo
 
   //relation with personal info
@@ -340,15 +349,19 @@ model DocumentInfo {
 
   startupInfoId Int?
   startupInfo  startupInfo? @relation(fields: [startupInfoId], references: [id])
+
+  
+  internsInfoId Int?
+  internsInfo  internsInfo? @relation(fields: [internsInfoId], references: [id])
   
 }
 model VideoInfo {
   id        Int     @id @default(autoincrement())
   name      String
   path      String  // Assuming video is stored as a URL
-  
+  // startupInfo  startupInfo? 
   startupInfoId Int?
-  startupInfo   startupInfo? @relation(fields: [startupInfoId], references: [id])
+  startupInfo  startupInfo? @relation(fields: [startupInfoId], references: [id])
 }
 
 model MediaInfo {
@@ -391,4 +404,30 @@ model IndependentPartnerInfo {
   personalInfo   PersonalInfo?  @relation(fields: [personalInfoId], references: [id]) // One-to-One: Personal Info
   personalInfoId Int?           @unique
   documentInfo   DocumentInfo[] // One-to-Many: Multiple DocumentInfo
+}
+
+//interns info
+model internsInfo {
+  id         Int      @id @default(autoincrement())
+  aboutYourself String?
+  university String
+  department      String
+  ideaDescription String?
+  year              Int
+  internshipStart   DateTime
+  internshipEnd     DateTime
+  // interestAreas     String   
+  interestAreas  String[]
+  otherInterests    String?  
+  portfolioLink     String?
+  linkedinProfile   String?
+
+  documents  DocumentInfo[] 
+
+  contactInfo ContactInfo[] 
+
+  personalInfo PersonalInfo[]
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
