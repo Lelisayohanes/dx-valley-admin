@@ -1,0 +1,15 @@
+
+DATABASE_URL="postgresql://admin:admin@localhost:5432/dx-valley_LandingPage"
+SERVER_URL = "http://localhost:8080/"
+
+SMTP_USERNAME=backend1221@gmail.com
+SMTP_PASSWORD=rfawgsaylywrsare
+
+SMTP_USERNAME_for_subscription=subscribe@dxvalley.com
+SMTP_PASSWORD_for_subscription=CoopDx@1234
+SMTP_USERNAME_for_info=info@dxvalley.com
+SMTP_PASSWORD_for_info=CoopDx@1234
+SMTP_USER_for_noreply=noreply@dxvalley.com
+SMTP_PASSWORD_for_noreply=CoopDx@1234
+SERVER_URL="http://localhost:3000/"
+NEXT_PUBLIC_GOOGLE_ANALYTICS_ID="G-NWJZCET4T6"
