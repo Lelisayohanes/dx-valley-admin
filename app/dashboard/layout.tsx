@@ -1,4 +1,9 @@
+"use client"
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast,Toaster } from "sonner";
+import Cookies from "js-cookie";
 import {
   CircleUser,
   Home,
@@ -53,24 +58,40 @@ const SidebarNavItem = ({
   </Link>
 );
 
-const UserDropdown = () => (
-  <DropdownMenu>
-    <DropdownMenuTrigger asChild>
-      <Button variant="secondary" size="icon" className="rounded-full">
-        <CircleUser className="h-5 w-5" />
-        <span className="sr-only">Toggle user menu</span>
-      </Button>
-    </DropdownMenuTrigger>
-    <DropdownMenuContent align="end">
-      <DropdownMenuLabel>My Account</DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem>Settings</DropdownMenuItem>
-      <DropdownMenuItem>Support</DropdownMenuItem>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem>Logout</DropdownMenuItem>
-    </DropdownMenuContent>
-  </DropdownMenu>
-);
+const UserDropdown = () => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Remove token from cookies
+    Cookies.remove("accessToken");
+  
+    toast.success("Logged out successfully");
+  
+    // Redirect the user to the login page or homepage
+    router.push("/"); 
+  };
+  
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="secondary" size="icon" className="rounded-full">
+          <CircleUser className="h-5 w-5" />
+          <span className="sr-only">Toggle user menu</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        {/* Logout option */}
+        <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const Sidebar = () => (
   <div className="hidden border-r bg-muted/40 md:block">
@@ -84,6 +105,11 @@ const Sidebar = () => (
       <div className="flex-1">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <SidebarNavItem href="#" label="Dashboard" icon={Home} active />
+          <SidebarNavItem
+            href="/dashboard/user"
+            label="User"
+            icon={Package}
+          />
           <SidebarNavItem
             href="/dashboard/event"
             label="Event"

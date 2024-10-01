@@ -12,9 +12,7 @@ async function getData(): Promise<Event[]> {
     }
 
     const data = await response.json();
-    console.log('Fetched data:', data);
 
-    // Ensure the data is an array
     if (!Array.isArray(data)) {
       throw new Error('Fetched data is not an array');
     }
