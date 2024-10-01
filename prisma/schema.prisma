@@ -21,6 +21,16 @@ model ContactUs{
    createdAt DateTime @default(now())
 }
 
+model User {
+
+  id             Int      @id @default(autoincrement())
+  username       String   @unique
+  email          String   @unique
+  password       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+}
 model collaborationOpportunity {
   id          Int      @id @default(autoincrement())
   Fullname    String
