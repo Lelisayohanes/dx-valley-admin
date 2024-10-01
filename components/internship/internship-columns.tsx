@@ -1,19 +1,11 @@
-"use client"; 
+/** @format */
 
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+"use client";
+
 import { useEffect, useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/internship/internship-data-table";
 import DetailDisplay from "../detail-display";
-import { getData } from "@/app/dashboard/interns/page";
 
 export type InternsData = {
   id: string;
@@ -62,9 +54,8 @@ export const columns: ColumnDef<InternsData>[] = [
     id: "details",
     header: "Details",
     cell: ({ row }) => {
-      const interns = row.original; 
+      const interns = row.original;
       return <DetailDisplay internDetail={interns} />;
     },
   },
-  
 ];
