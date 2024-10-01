@@ -23,6 +23,7 @@ async function getData(): Promise<MediaData[]> {
     }));
 
     return mediaData;
+    
   } catch (error) {
     console.error('Error fetching media data:', error);
     return []; // Return an empty array in case of an error

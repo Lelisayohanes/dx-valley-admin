@@ -16,7 +16,8 @@ import {
   Handshake,
   SquarePlay,
   PersonStanding,
-  Logs
+  Logs,
+  Rocket
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -147,6 +148,12 @@ const Sidebar = () => (
           icon={Logs}
           />
 
+            <SidebarNavItem
+            href="/dashboard/callforproposal"
+            label="Startups"
+            icon={Rocket}
+          />
+
         </nav>
       </div>
     </div>
@@ -185,7 +192,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center">
             <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
           </div>
-          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+          <div className="flex flex-1 items-start justify-center rounded-lg border border-dashed shadow-sm w-full">
             {children}
           </div>
         </main>
