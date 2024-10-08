@@ -6,6 +6,7 @@ import { User, columns } from "@/components/user/user-columns";
 import { DataTable } from "@/components/events/events-data-table";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import withAuth from "@/components/withAuth";
 
 const UserPage = () => {
   const router = useRouter();
@@ -80,4 +81,4 @@ const UserPage = () => {
   );
 };
 
-export default UserPage;
+export default withAuth(UserPage);

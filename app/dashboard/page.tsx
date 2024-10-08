@@ -2,17 +2,11 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie"; 
+import withAuth from "@/components/withAuth";
 
 const Dashboard = () => {
   const router = useRouter();
 
-  useEffect(() => {
-    const token = Cookies.get("accessToken");
-    if (!token) {
-      router.push("/"); 
-    }
-  }, [router]);
 
   return (
     <div>
@@ -22,4 +16,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

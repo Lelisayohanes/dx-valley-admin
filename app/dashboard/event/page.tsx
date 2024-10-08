@@ -2,7 +2,7 @@
 import { Event, columns } from "@/components/events/event-table-columns";
 import { DataTable } from "@/components/events/events-data-table";
 import { Button } from "@/components/ui/button";
-
+import withAuth from "@/components/withAuth";
 async function getData(): Promise<Event[]> {
   try {
     const response = await fetch(`${process.env.SERVER_URL}/api/event`);
@@ -33,7 +33,7 @@ async function getData(): Promise<Event[]> {
   }
 }
 
-export default async function EventPage() {
+ async function  EventPage() {
   const data = await getData();
 
   return (
@@ -49,3 +49,5 @@ export default async function EventPage() {
     </div>
   );
 }
+
+export default withAuth(EventPage)
