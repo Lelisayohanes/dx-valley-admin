@@ -16,7 +16,8 @@ import {
   Handshake,
   SquarePlay,
   PersonStanding,
-  Logs
+  Logs,
+  Rocket
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -97,10 +98,10 @@ const Sidebar = () => (
   <div className="hidden border-r bg-muted/40 md:block">
     <div className="flex h-full max-h-screen flex-col gap-2">
       <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
-          <ShieldCheck className="h-6 w-6" />
-          <span>Admin</span>
-        </Link>
+          <Link href="/" className="flex items-center gap-2 font-semibold">
+            <ShieldCheck className="h-6 w-6" />
+            <span>Admin</span>
+          </Link>
       </div>
       <div className="flex-1">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
@@ -147,6 +148,12 @@ const Sidebar = () => (
           icon={Logs}
           />
 
+            <SidebarNavItem
+            href="/dashboard/callforproposal"
+            label="Startups"
+            icon={Rocket}
+          />
+
         </nav>
       </div>
     </div>
@@ -156,15 +163,53 @@ const Sidebar = () => (
 const MobileSidebar = () => (
   <Sheet>
     <SheetTrigger asChild>
-      <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-        <Menu className="h-5 w-5" />
-        <span className="sr-only">Toggle navigation menu</span>
+      <Button variant='outline' size='icon' className='shrink-0 md:hidden'>
+        <Menu className='h-5 w-5' />
+        <span className='sr-only'>Toggle navigation menu</span>
       </Button>
     </SheetTrigger>
-    <SheetContent side="left" className="flex flex-col">
-      <nav className="grid gap-2 text-lg font-medium">
-        <SidebarNavItem href="#" label="Dashboard" icon={Home} active />
-        <SidebarNavItem href="#" label="Test" icon={BookUser} />
+    <SheetContent side='left' className='flex flex-col'>
+      <nav className='grid gap-2 text-lg font-medium'>
+        <SidebarNavItem href='#' label='Dashboard' icon={Home} active />
+        <SidebarNavItem href='/dashboard/user' label='User' icon={Package} />
+        <SidebarNavItem href='/dashboard/event' label='Event' icon={Package} />
+        <SidebarNavItem
+          href='/dashboard/contactus'
+          label='Contact Submissions'
+          icon={Contact2}
+        />
+        <SidebarNavItem
+          href='/dashboard/organization'
+          label='Organizations'
+          icon={Building2}
+        />
+        <SidebarNavItem
+          href='/dashboard/media'
+          label='Media'
+          icon={SquarePlay}
+        />
+        <SidebarNavItem
+          href='/dashboard/ip'
+          label='Independent Partner'
+          icon={Handshake}
+        />
+        <SidebarNavItem
+          href='/dashboard/trainers'
+          label='Trainers'
+          icon={PersonStanding}
+        />
+
+        <SidebarNavItem
+          href='/dashboard/subscriber'
+          label='Subscriber'
+          icon={Logs}
+        />
+
+        <SidebarNavItem
+          href='/dashboard/callforproposal'
+          label='Startups'
+          icon={Rocket}
+        />
       </nav>
     </SheetContent>
   </Sheet>
@@ -185,7 +230,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center">
             <h1 className="text-lg font-semibold md:text-2xl">Dashboard</h1>
           </div>
-          <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+          <div className="flex flex-1 items-start justify-center rounded-lg border border-dashed shadow-sm w-full">
             {children}
           </div>
         </main>
