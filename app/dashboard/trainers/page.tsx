@@ -1,10 +1,12 @@
+"use client";
+import { useEffect, useState } from "react";
 import { TrainersData, columns } from "@/components/trainers/trainers-columns";
 import { DataTable } from "@/components/trainers/trainers-data-table";
-import { OrganizationInfo } from "@prisma/client";
+import withAuth from "@/components/withAuth";
 
-async function getData(): Promise<TrainersData[]> {
+async function fetchTrainersData(): Promise<TrainersData[]> {
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/trainer`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/trainer`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -31,8 +33,33 @@ async function getData(): Promise<TrainersData[]> {
   }
 }
 
-export default async function EventPage() {
-  const data = await getData();
+function EventPage() {
+  const [data, setData] = useState<TrainersData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null); // State for error handling
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const trainers = await fetchTrainersData();
+        setData(trainers);
+      } catch (error) {
+        setError((error as Error).message || 'An error occurred while fetching data.'); // Handle error
+      } finally {
+        setLoading(false); // Ensure loading is false
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Display error message
+  }
 
   return (
     <div className="container mx-auto pt-0">
@@ -40,3 +67,5 @@ export default async function EventPage() {
     </div>
   );
 }
+
+export default withAuth(EventPage);
