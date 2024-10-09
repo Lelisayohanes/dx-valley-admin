@@ -1,17 +1,20 @@
+"use client";
+import { useEffect, useState } from "react";
 import { OrganizationData, columns } from "@/components/organization/organization-columns";
-import { DataTable } from "@/components/organization/organization-data-table"; // Corrected import path
+import { DataTable } from "@/components/organization/organization-data-table"; 
+import withAuth from "@/components/withAuth";
 
-async function getData(): Promise<OrganizationData[]> {
+async function fetchOrganizationData(): Promise<OrganizationData[]> {
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/organization`);
-
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/organization`);
+    console.log(process.env.NEXT_PUBLIC_SERVER_URL); // Debugging output
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
 
     const data = await response.json();
+    console.log(data); // Debugging output
 
-    // Transform the data
     const organizations: OrganizationData[] = data.Organizations.map((org: any) => ({
       id: org.id.toString(),
       organizationName: org.organizationName,
@@ -25,12 +28,37 @@ async function getData(): Promise<OrganizationData[]> {
     return organizations;
   } catch (error) {
     console.error('Error fetching organization data:', error);
-    return []; // Return an empty array in case of an error
+    throw error; // Throw error to handle it in the calling function
   }
 }
 
-export default async function EventPage() {
-  const data = await getData();
+function OrganizationPage() {
+  const [data, setData] = useState<OrganizationData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null); // State to manage errors
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const organizations = await fetchOrganizationData();
+        setData(organizations);
+      } catch (error) {
+        setError((error as Error).message || 'An error occurred while fetching data.'); // Handle error properly
+      } finally {
+        setLoading(false); // Ensure loading is false regardless of success or failure
+      }
+    }
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Display error message to users
+  }
 
   return (
     <div className="container mx-auto pt-0">
@@ -38,3 +66,5 @@ export default async function EventPage() {
     </div>
   );
 }
+
+export default withAuth(OrganizationPage);

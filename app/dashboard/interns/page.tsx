@@ -1,16 +1,16 @@
-/** @format */
 "use client";
 import {
   InternsData,
   columns,
 } from "@/components/internship/internship-columns";
 import { DataTable } from "@/components/internship/internship-data-table";
+import withAuth from "@/components/withAuth";
 import { FC, useState, useEffect } from "react";
 
 // Data fetching function
 const fetchData = async (): Promise<InternsData[]> => {
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/internship`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/internship`);
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -26,9 +26,7 @@ const fetchData = async (): Promise<InternsData[]> => {
 
           return {
             id: intern.id.toString(),
-            fullName: `${intern.personalInfo[0]?.firstName || ""} ${
-              intern.personalInfo[0]?.lastName || ""
-            }`,
+            fullName: `${intern.personalInfo[0]?.firstName || ""} ${intern.personalInfo[0]?.lastName || ""}`,
             email: intern.contactInfo[0]?.email || "",
             phone: intern.contactInfo[0]?.phoneNumberOne || "",
             university: intern.university,
@@ -48,26 +46,40 @@ const fetchData = async (): Promise<InternsData[]> => {
     return interns;
   } catch (error) {
     console.error("Error fetching data:", error);
-    return [];
+    throw new Error("Failed to fetch data");
   }
 };
 
 // Page component
-const EventPage = () => {
+const InternsPage: FC = () => {
   const [data, setData] = useState<InternsData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
-      const internsData = await fetchData();
-      setData(internsData);
-      setLoading(false);
+      try {
+        const internsData = await fetchData();
+        setData(internsData);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message); // Safely access error message
+        } else {
+          setError("An unknown error occurred"); // Fallback for unknown error type
+        }
+      } finally {
+        setLoading(false);
+      }
     };
     loadData();
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // or any loading indicator
+    return <div className="flex justify-center items-center"><span>Loading...</span></div>; // Replace with a spinner if desired
+  }
+
+  if (error) {
+    return <div className="text-red-500">{error}</div>; // Display error message
   }
 
   return (
@@ -77,4 +89,4 @@ const EventPage = () => {
   );
 };
 
-export default EventPage;
+export default withAuth(InternsPage);

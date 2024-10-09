@@ -24,7 +24,7 @@ const UserPage = () => {
 
     const getData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/getuser`, {
+        const response = await fetch("/api/user/getuser", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`, // Include the token in the request headers

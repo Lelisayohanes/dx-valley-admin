@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ModeToggle } from "@/components/modeToggle";
+import withAuth from "@/components/withAuth";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -148,6 +149,12 @@ const Sidebar = () => (
           icon={Logs}
           />
 
+        <SidebarNavItem
+          href='/dashboard/interns'
+          label='Interns'
+          icon={PersonStanding}
+        />
+
             <SidebarNavItem
             href="/dashboard/callforproposal"
             label="Startups"
@@ -206,6 +213,11 @@ const MobileSidebar = () => (
         />
 
         <SidebarNavItem
+          href='/dashboard/interns'
+          label='Interns'
+          icon={Logs}
+        />
+        <SidebarNavItem
           href='/dashboard/callforproposal'
           label='Startups'
           icon={Rocket}
@@ -215,7 +227,7 @@ const MobileSidebar = () => (
   </Sheet>
 );
 
-export default function DashboardLayout({ children }: DashboardLayoutProps) {
+ function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <Sidebar />
@@ -238,3 +250,5 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     </div>
   );
 }
+
+export default withAuth(DashboardLayout)
