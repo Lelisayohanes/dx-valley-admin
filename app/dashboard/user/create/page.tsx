@@ -1,13 +1,17 @@
+"use client";
 
-import CreateUser from '@/components/events/user-create'
-import React from 'react'
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import CreateUser from '@/components/events/user-create';
+import Cookies from "js-cookie";
+import withAuth from "@/components/withAuth"; 
 
-const page = () => {
+const Page = () => {
   return (
     <div>
-      <CreateUser/>
+      <CreateUser />
     </div>
-  )
+  );
 }
 
-export default page
+export default withAuth(Page);
