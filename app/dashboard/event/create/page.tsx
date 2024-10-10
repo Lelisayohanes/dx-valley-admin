@@ -1,7 +1,7 @@
-
-import AdminEvent from '@/components/events/admin-event';
-import withAuth from '@/components/withAuth';
-import React from 'react';
+"use client";
+import AdminEvent from "@/components/events/admin-event";
+import withAuth from "@/components/withAuth";
+import React from "react";
 
 // Define props for the page component if needed
 type PageProps = {
@@ -14,7 +14,7 @@ const Page: React.FC<PageProps> = () => {
       <AdminEvent />
     </div>
   );
-}
+};
 
 // Wrap the page component with the withAuth HOC
 export default withAuth(Page);
