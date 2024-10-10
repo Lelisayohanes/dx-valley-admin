@@ -81,4 +81,4 @@ const UserPage = () => {
   );
 };
 
-export default withAuth(UserPage);
+export default UserPage;
