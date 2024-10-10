@@ -1,7 +1,4 @@
-/** @format */
-
 "use client";
-
 import AdminEvent from "@/components/events/admin-event";
 import withAuth from "@/components/withAuth";
 import React from "react";
