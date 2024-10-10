@@ -14,7 +14,7 @@ async function fetchStartupsData(): Promise<StartupsData[]> {
 
     const data = await response.json();
     console.log(data);
-
+    
     // Transform the data
     const startups: StartupsData[] = data.Startups.map((startup: any) => ({
       id: startup.id.toString(),
