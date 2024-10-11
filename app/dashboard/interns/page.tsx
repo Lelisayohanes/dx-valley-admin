@@ -10,7 +10,7 @@ import { FC, useState, useEffect } from "react";
 // Data fetching function
 const fetchData = async (): Promise<InternsData[]> => {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/internship`);
+    const response = await fetch(`/api/internship`);
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }

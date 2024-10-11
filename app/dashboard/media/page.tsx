@@ -12,7 +12,7 @@ const MediaPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/media`);
+        const response = await fetch(`/api/media`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch media data');

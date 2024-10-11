@@ -21,7 +21,6 @@ const UserPage = () => {
       router.push("/"); // Redirect to login if not authenticated
       return;
     }
-
     const getData = async () => {
       try {
         const response = await fetch("/api/user/getuser", {
@@ -49,24 +48,24 @@ const UserPage = () => {
           email: userItem.email,
         }));
 
-        setData(userData); // Update the state with the fetched data
+        setData(userData); 
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setError((error as Error).message || "An error occurred"); // Update error state
+        setError((error as Error).message || "An error occurred"); 
       } finally {
-        setLoading(false); // Set loading to false when the fetch completes
+        setLoading(false); 
       }
     };
 
-    getData(); // Call the getData function
-  }, [router]); // Run this effect when the router changes
+    getData(); 
+  }, [router]); 
 
   if (loading) {
-    return <p>Loading...</p>; // Show loading state while data is being fetched
+    return <p>Loading...</p>; 
   }
 
   if (error) {
-    return <p>Error: {error}</p>; // Show error state if there is an error
+    return <p>Error: {error}</p>; 
   }
 
   return (

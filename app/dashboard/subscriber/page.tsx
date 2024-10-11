@@ -6,7 +6,7 @@ import withAuth from "@/components/withAuth";
 
 async function fetchSubscriberData(): Promise<SubscriberData[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/subscriber`);
+    const response = await fetch(`/api/subscriber`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch subscriber data: ${response.statusText}`);

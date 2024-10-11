@@ -6,7 +6,7 @@ import withAuth from "@/components/withAuth";
 
 async function fetchStartupsData(): Promise<StartupsData[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/callforproposal`);
+    const response = await fetch(`/api/callforproposal`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch data');

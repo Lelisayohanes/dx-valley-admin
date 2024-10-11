@@ -4,9 +4,10 @@ import { TrainersData, columns } from "@/components/trainers/trainers-columns";
 import { DataTable } from "@/components/trainers/trainers-data-table";
 import withAuth from "@/components/withAuth";
 
+// Fetch trainers' data from the API route
 async function fetchTrainersData(): Promise<TrainersData[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/trainer`);
+    const response = await fetch(`/api/trainer/gettrainer`); // Fetch from the API route you created
 
     if (!response.ok) {
       throw new Error('Failed to fetch data');
@@ -14,16 +15,16 @@ async function fetchTrainersData(): Promise<TrainersData[]> {
 
     const data = await response.json();
 
-    // Transform the data
-    const trainers: TrainersData[] = data.Trainers.map((trainer: any) => ({
+    // Transform the data to fit your table structure
+    const trainers: TrainersData[] = data.map((trainer: any) => ({
       id: trainer.id.toString(),
-      fullName: `${trainer.personalInfo.firstName} ${trainer.personalInfo.lastName}`,
-      email: trainer.personalInfo.contactInfo[0]?.email || '',
-      phone: trainer.personalInfo.contactInfo[0]?.phoneNumberOne || '',
-      city: trainer.personalInfo.addressInfo[0]?.city || '',
-      expertise: trainer.expertise,
-      profession: trainer.profession,
-      schedule: trainer.schedule,
+      fullName: `${trainer.firstName} ${trainer.lastName}`, // Modify based on actual data structure
+      email: trainer.email || '',
+      phone: trainer.phone || '',
+      city: trainer.city || '',
+      expertise: trainer.expertise || '',
+      profession: trainer.profession || '',
+      schedule: trainer.schedule || ''
     }));
 
     return trainers;
@@ -33,7 +34,7 @@ async function fetchTrainersData(): Promise<TrainersData[]> {
   }
 }
 
-function EventPage() {
+function TrainersPage() {
   const [data, setData] = useState<TrainersData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null); // State for error handling
@@ -44,9 +45,9 @@ function EventPage() {
         const trainers = await fetchTrainersData();
         setData(trainers);
       } catch (error) {
-        setError((error as Error).message || 'An error occurred while fetching data.'); // Handle error
+        setError((error as Error).message || 'An error occurred while fetching data.');
       } finally {
-        setLoading(false); // Ensure loading is false
+        setLoading(false); // Ensure loading is false after fetching
       }
     };
 
@@ -64,8 +65,11 @@ function EventPage() {
   return (
     <div className="container mx-auto pt-0">
       <DataTable columns={columns} data={data} />
+      {/* <pre>
+        {JSON.stringify(data, null, 2)} 
+      </pre> */}
     </div>
   );
 }
 
-export default withAuth(EventPage);
+export default withAuth(TrainersPage);
