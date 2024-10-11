@@ -1,9 +1,12 @@
+/** @format */
+
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { Event, columns } from "@/components/events/event-table-columns";
 import { DataTable } from "@/components/events/events-data-table";
 import { Button } from "@/components/ui/button";
 import withAuth from "@/components/withAuth";
+import DOMPurify from "dompurify";
 
 const EventPage = () => {
   const [data, setData] = useState<Event[]>([]);
@@ -13,7 +16,9 @@ const EventPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/event`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/event`
+        );
         if (!response.ok) {
           throw new Error(`Failed to fetch event data: ${response.statusText}`);
         }
@@ -44,7 +49,9 @@ const EventPage = () => {
     return data.map((eventItem: any) => ({
       id: eventItem.id.toString(),
       name: eventItem.name,
-      description: eventItem.description,
+      description: DOMPurify.sanitize(eventItem.description, {
+        ALLOWED_TAGS: ["b", "i", "em", "strong", "u", "p", "br"],
+      }), // Sanitize the description
       category: eventItem.category as "tech-expo" | "contest",
       targetDate: new Date(eventItem.targetDate),
     }));
@@ -54,12 +61,13 @@ const EventPage = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="container mx-auto pt-0">
-      <div className="flex justify-end m-6">
-        <a href="/dashboard/event/create">
+    <div className='container mx-auto pt-0'>
+      <div className='flex justify-end m-6'>
+        <a href='/dashboard/event/create'>
           <Button>Add New Event</Button>
         </a>
       </div>
+      {/* Pass transformed data to DataTable */}
       <DataTable columns={columns} data={transformedData} />
     </div>
   );
