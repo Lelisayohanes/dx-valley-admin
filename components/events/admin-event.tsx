@@ -1,14 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,13 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "../ui/textarea";
-
 import { Button } from "../ui/button";
 import { format } from "date-fns";
-
 import { Calendar as CalendarIcon } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -35,17 +30,30 @@ import {
 } from "@/components/ui/popover";
 import { toast } from "sonner";
 
+// Import react-simplemde-editor
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
+
 export default function AdminEvent() {
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState<string>(""); // markdown content
   const router = useRouter();
-
-  //   const [targetDate, setTargetDate] = useState("");
   const [targetDate, setTargetDate] = useState<Date | undefined>(undefined);
-
   const [category, setCategory] = useState("");
 
-  //   const router = useRouter();
+  // Handle markdown content change using useCallback
+  const handleMarkdownChange = useCallback((value: string) => {
+    setDescription(value);
+  }, []);
+
+  // SimpleMDE options using useMemo to avoid re-renders
+  const mdeOptions = useMemo(
+    () => ({
+      placeholder: "Event Description...",
+      spellChecker: false,
+    }),
+    []
+  );
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -59,15 +67,14 @@ export default function AdminEvent() {
     });
 
     if (response.ok) {
-      // alert("Registration successful!");
       toast.success("Registration successful!", {
         description: "Event has been submitted successfully.",
       });
       setName("");
       setDescription("");
       setTargetDate(undefined);
-      setCategory("")
-      router.push('/dashboard/event');
+      setCategory("");
+      router.push("/dashboard/event");
     } else {
       const errorMessage = await response.json();
       console.error("Error:", errorMessage);
@@ -76,15 +83,15 @@ export default function AdminEvent() {
           errorMessage?.error.message ||
           "An error occurred during registration.",
       });
-      router.push('/dashboard/event');
+      router.push("/dashboard/event");
     }
   };
 
   return (
-    <Card className=" w-[500px]">
+    <Card className="w-[1000px] my-4">
       <CardHeader>
         <CardTitle>Event</CardTitle>
-        <CardDescription>Description</CardDescription>
+        <CardDescription>Add the details of your event below.</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -99,62 +106,65 @@ export default function AdminEvent() {
                 required
               />
             </div>
+
+            {/* Markdown Editor for Description */}
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Description</Label>
-              <Textarea
-                placeholder="Event Description"
+              <Label htmlFor="description">Description</Label>
+              <SimpleMDE
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
+                onChange={handleMarkdownChange}
+                options={mdeOptions}
               />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Target date</Label>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="targetDate">Target Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "justify-start text-left font-normal",
+                        !targetDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {targetDate ? (
+                        format(targetDate, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={targetDate}
+                      onSelect={(date) => setTargetDate(date || undefined)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
 
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-[450px] justify-start text-left font-normal",
-                      !targetDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {targetDate ? (
-                      format(targetDate, "PPP")
-                    ) : (
-                      <span>Pick a date</span>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
-                  <Calendar
-                    mode="single"
-                    selected={targetDate}
-                    onSelect={(date) => setTargetDate(date || undefined)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Event Catagory</Label>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger id="framework">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="contest">Contest</SelectItem>
-                  <SelectItem value="tech expo">Tech Expo</SelectItem>
-                  <SelectItem value="call for proposal">
-                    Call for Proposal
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="framework">Event Category</Label>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger id="framework">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    <SelectItem value="contest">Contest</SelectItem>
+                    <SelectItem value="tech expo">Tech Expo</SelectItem>
+                    <SelectItem value="call for proposal">
+                      Call for Proposal
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
-          <Button className="admin-event-btn bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 hover:bg-amber-500">
+          <Button className="mt-4 bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 hover:bg-amber-500">
             Create event
           </Button>
         </form>
