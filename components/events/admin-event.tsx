@@ -1,7 +1,7 @@
 /** @format */
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -21,7 +21,6 @@ import {
 import { Button } from "../ui/button";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { Editor } from "primereact/editor"; // PrimeReact Editor
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -30,54 +29,32 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "sonner";
-// import DOMPurify from "dompurify"; // Import DOMPurify to sanitize HTML
-import DOMPurify from "dompurify";
+
+// Import react-simplemde-editor
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
 
 export default function AdminEvent() {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "", // For rich text
-    targetDate: undefined as Date | undefined,
-    category: "",
-  });
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState<string>(""); // markdown content
   const router = useRouter();
+  const [targetDate, setTargetDate] = useState<Date | undefined>(undefined);
+  const [category, setCategory] = useState("");
 
-  // Handle input changes for all inputs
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  // Handle markdown content change using useCallback
+  const handleMarkdownChange = useCallback((value: string) => {
+    setDescription(value);
+  }, []);
 
-  // Handle RichTextEditor changes
-  // const handleRichTextChange = (e: any) => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     description: e.htmlValue, // PrimeReact editor content (HTML)
-  //   }));
-  // };
+  // SimpleMDE options using useMemo to avoid re-renders
+  const mdeOptions = useMemo(
+    () => ({
+      placeholder: "Event Description...",
+      spellChecker: false,
+    }),
+    []
+  );
 
-  const handleRichTextChange = (value: string) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      description: DOMPurify.sanitize(value, {
-        ALLOWED_TAGS: [
-          "b",
-          "i",
-          "em",
-          "strong",
-          "u",
-          "p",
-          "br",
-          "ul",
-          "ol",
-          "li",
-        ],
-      }), // add allowed tags
-    }));
-  };
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
@@ -93,12 +70,10 @@ export default function AdminEvent() {
       toast.success("Registration successful!", {
         description: "Event has been submitted successfully.",
       });
-      setFormData({
-        name: "",
-        description: "",
-        targetDate: undefined,
-        category: "",
-      });
+      setName("");
+      setDescription("");
+      setTargetDate(undefined);
+      setCategory("");
       router.push("/dashboard/event");
     } else {
       const errorMessage = await response.json();
@@ -113,10 +88,10 @@ export default function AdminEvent() {
   };
 
   return (
-    <Card className='w-[500px]'>
+    <Card className="w-[1000px] my-4">
       <CardHeader>
         <CardTitle>Event</CardTitle>
-        <CardDescription>Description</CardDescription>
+        <CardDescription>Add the details of your event below.</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -133,81 +108,64 @@ export default function AdminEvent() {
               />
             </div>
 
-            {/* PrimeReact Editor for rich text input */}
-            <div className='flex flex-col space-y-1.5'>
-              <Label htmlFor='description'>Description</Label>
-              <div
-                style={{
-                  resize: "both",
-                  overflow: "auto",
-                  width: "100%",
-                  minHeight: "320px",
-                }}>
-                <Editor
-                  value={formData.description}
-                  onTextChange={(e) => handleRichTextChange(e.htmlValue || "")}
-                  style={{ height: "320px", width: "100%" }}
-                />
+            {/* Markdown Editor for Description */}
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="description">Description</Label>
+              <SimpleMDE
+                value={description}
+                onChange={handleMarkdownChange}
+                options={mdeOptions}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="targetDate">Target Date</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant={"outline"}
+                      className={cn(
+                        "justify-start text-left font-normal",
+                        !targetDate && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {targetDate ? (
+                        format(targetDate, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      mode="single"
+                      selected={targetDate}
+                      onSelect={(date) => setTargetDate(date || undefined)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="framework">Event Category</Label>
+                <Select value={category} onValueChange={setCategory}>
+                  <SelectTrigger id="framework">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                  <SelectContent position="popper">
+                    <SelectItem value="contest">Contest</SelectItem>
+                    <SelectItem value="tech expo">Tech Expo</SelectItem>
+                    <SelectItem value="call for proposal">
+                      Call for Proposal
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
-
-            <div className='flex flex-col space-y-1.5'>
-              <Label htmlFor='targetDate'>Target date</Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-[450px] justify-start text-left font-normal",
-                      !formData.targetDate && "text-muted-foreground"
-                    )}>
-                    <CalendarIcon className='mr-2 h-4 w-4' />
-                    {formData.targetDate
-                      ? format(formData.targetDate, "PPP")
-                      : "Pick a date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className='w-auto p-0'>
-                  <Calendar
-                    mode='single'
-                    selected={formData.targetDate}
-                    onSelect={(date) =>
-                      setFormData((prevData) => ({
-                        ...prevData,
-                        targetDate: date || undefined,
-                      }))
-                    }
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            <div className='flex flex-col space-y-1.5'>
-              <Label htmlFor='category'>Event Category</Label>
-              <Select
-                value={formData.category}
-                onValueChange={(value) =>
-                  setFormData((prevData) => ({
-                    ...prevData,
-                    category: value,
-                  }))
-                }>
-                <SelectTrigger id='category'>
-                  <SelectValue placeholder='Select' />
-                </SelectTrigger>
-                <SelectContent position='popper'>
-                  <SelectItem value='contest'>Contest</SelectItem>
-                  <SelectItem value='tech expo'>Tech Expo</SelectItem>
-                  <SelectItem value='call for proposal'>
-                    Call for Proposal
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
-
-          <Button className='admin-event-btn bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 hover:bg-amber-500'>
+          <Button className="mt-4 bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 hover:bg-amber-500">
             Create event
           </Button>
         </form>
