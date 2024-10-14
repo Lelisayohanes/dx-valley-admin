@@ -6,7 +6,7 @@ import withAuth from "@/components/withAuth";
 
 async function fetchContactData(): Promise<ContactUs[]> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/contactus`);
+    const response = await fetch(`/api/contactus`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch contact data: ${response.statusText}`);

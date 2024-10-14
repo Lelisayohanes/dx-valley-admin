@@ -12,13 +12,11 @@ const EventPage = () => {
   const [data, setData] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/event`
-        );
+        const response = await fetch(`/api/event/getevent`); // Update API endpoint as necessary
         if (!response.ok) {
           throw new Error(`Failed to fetch event data: ${response.statusText}`);
         }
@@ -49,10 +47,8 @@ const EventPage = () => {
     return data.map((eventItem: any) => ({
       id: eventItem.id.toString(),
       name: eventItem.name,
-      description: DOMPurify.sanitize(eventItem.description, {
-        ALLOWED_TAGS: ["b", "i", "em", "strong", "u", "p", "br"],
-      }), // Sanitize the description
-      category: eventItem.category as "tech-expo" | "contest",
+      description: eventItem.description,
+      category: eventItem.category as "tech-expo" | "contest", // Adapt to your categories
       targetDate: new Date(eventItem.targetDate),
     }));
   }, [data]);
