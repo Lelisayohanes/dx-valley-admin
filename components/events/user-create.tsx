@@ -17,10 +17,48 @@ export default function CreateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isUsernameValid, setIsUsernameValid] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const router = useRouter();
+
+  const validateUsername = () => {
+    if (!username.trim() || !/^[a-zA-Z0-9_]+$/.test(username)) {
+      setIsUsernameValid(false);
+      return false;
+    }
+    setIsUsernameValid(true);
+    return true;
+  };
+
+  const validatePassword = () => {
+    if (password.length < 6) {
+      setIsPasswordValid(false);
+      return false;
+    }
+    setIsPasswordValid(true);
+    return true;
+  };
+
+  const validateEmail = () => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setIsEmailValid(false);
+      return false;
+    }
+    setIsEmailValid(true);
+    return true;
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    // Validate all fields
+    const isFormValid =
+      validateUsername() && validatePassword() && validateEmail();
+
+    if (!isFormValid) {
+      return;
+    }
 
     try {
       const response = await fetch("/api/user/create", {
@@ -41,7 +79,8 @@ export default function CreateUser() {
         router.push("/dashboard");
       } else {
         const errorResponse = await response.json();
-        const errorMessage = errorResponse.message || "An error occurred during registration.";
+        const errorMessage =
+          errorResponse.message || "An error occurred during registration.";
         toast.error("User creation failed", {
           description: errorMessage,
         });
@@ -57,7 +96,9 @@ export default function CreateUser() {
     <Card className="w-[500px]">
       <CardHeader>
         <CardTitle>Create User</CardTitle>
-        <CardDescription>Fill in the details to create a new user.</CardDescription>
+        <CardDescription>
+          Fill in the details to create a new user.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
@@ -69,8 +110,14 @@ export default function CreateUser() {
                 placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                required
+                onBlur={validateUsername} // Validate on blur
               />
+              {!isUsernameValid && (
+                <p className="text-red-500 text-sm">
+                  Username is required and must contain only letters, numbers,
+                  or underscores.
+                </p>
+              )}
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">Password</Label>
@@ -79,8 +126,13 @@ export default function CreateUser() {
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                onBlur={validatePassword} // Validate on blur
               />
+              {!isPasswordValid && (
+                <p className="text-red-500 text-sm">
+                  Password must be at least 6 characters long.
+                </p>
+              )}
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">Email</Label>
@@ -89,7 +141,13 @@ export default function CreateUser() {
                 placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onBlur={validateEmail} // Validate on blur
               />
+              {!isEmailValid && (
+                <p className="text-red-500 text-sm">
+                  Please enter a valid email address.
+                </p>
+              )}
             </div>
           </div>
           <Button className="bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 mt-3 hover:bg-amber-500">
