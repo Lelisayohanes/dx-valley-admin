@@ -1,17 +1,9 @@
-import React from 'react'
+"use client";
+import withAuth from "@/components/withAuth";
+import React from "react";
 
-const page = ({
-    params,
-}: {
-    params: { participantId: string };
-}) => {
-    return (
-        <div>
-            Detail of team {
-                params.participantId
-            }
-        </div>
-    )
-}
+const page = ({ params }: { params: { participantId: string } }) => {
+  return <div>Detail of team {params.participantId}</div>;
+};
 
-export default page
+export default withAuth(page);

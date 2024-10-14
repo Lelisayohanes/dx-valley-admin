@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
+    "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
@@ -18,9 +19,10 @@
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-table": "^8.20.5",
-<<<<<<< HEAD
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
@@ -28,28 +30,32 @@
     "@radix-ui/react-tabs": "^1.1.0",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/react-table": "^8.20.5",
-=======
     "add": "^2.0.6",
->>>>>>> 0d8a2bf1f2b70923674208f3e15545e57fbae63d
+    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "formidable": "^3.5.1",
+    "glob": "^9.3.5",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.439.0",
     "next": "14.2.8",
+    "next-cookies": "^2.0.3",
     "next-themes": "^0.3.0",
     "nodemailer": "^6.9.15",
-<<<<<<< HEAD
     "next-themes": "^0.3.0",
     "react": "^18",
-=======
     "popover": "^2.4.1",
     "react": "^18.3.1",
     "react-confetti": "^6.1.0",
     "react-day-picker": "^8.10.1",
->>>>>>> 0d8a2bf1f2b70923674208f3e15545e57fbae63d
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
+    "react-player": "^2.16.0",
+    "react-simplemde-editor": "^5.2.0",
+    "rimraf": "^4.4.1",
+    "showdown": "^2.1.0",
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
@@ -57,7 +63,11 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/formidable": "^3.4.5",
+    "@types/js-cookie": "^3.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18.3.5",

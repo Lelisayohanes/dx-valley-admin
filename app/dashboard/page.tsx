@@ -1,8 +1,19 @@
+"use client";
 
-export default function Dashboard() {
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import withAuth from "@/components/withAuth";
+
+const Dashboard = () => {
+  const router = useRouter();
+
+
   return (
-    <div className="">
-      {/* Your content goes here */}
+    <div>
+      <h1>Welcome to the Dashboard!</h1>
+      {/* Rest of your dashboard component */}
     </div>
   );
-}
+};
+
+export default withAuth(Dashboard);
