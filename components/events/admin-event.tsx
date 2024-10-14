@@ -1,5 +1,7 @@
 /** @format */
 
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useState, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/input";
@@ -63,7 +65,7 @@ export default function AdminEvent() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ name, description, targetDate, category }),
     });
 
     if (response.ok) {
@@ -88,7 +90,7 @@ export default function AdminEvent() {
   };
 
   return (
-    <Card className="w-[1000px] my-4">
+    <Card className='w-[1000px] my-4'>
       <CardHeader>
         <CardTitle>Event</CardTitle>
         <CardDescription>Add the details of your event below.</CardDescription>
@@ -98,28 +100,27 @@ export default function AdminEvent() {
           <div className='grid w-full items-center gap-4'>
             <div className='flex flex-col space-y-1.5'>
               <Label htmlFor='name'>Name</Label>
-              <Input  
+              <Input
                 type='text'
                 placeholder='Event Name'
-                name='name'
-                value={formData.name}
-                onChange={handleChange}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </div>
 
             {/* Markdown Editor for Description */}
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="description">Description</Label>
+            <div className='flex flex-col space-y-1.5'>
+              <Label htmlFor='description'>Description</Label>
               <SimpleMDE
                 value={description}
                 onChange={handleMarkdownChange}
                 options={mdeOptions}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="targetDate">Target Date</Label>
+            <div className='grid grid-cols-2 gap-4'>
+              <div className='flex flex-col space-y-1.5'>
+                <Label htmlFor='targetDate'>Target Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -127,9 +128,8 @@ export default function AdminEvent() {
                       className={cn(
                         "justify-start text-left font-normal",
                         !targetDate && "text-muted-foreground"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      )}>
+                      <CalendarIcon className='mr-2 h-4 w-4' />
                       {targetDate ? (
                         format(targetDate, "PPP")
                       ) : (
@@ -137,9 +137,9 @@ export default function AdminEvent() {
                       )}
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
+                  <PopoverContent className='w-auto p-0'>
                     <Calendar
-                      mode="single"
+                      mode='single'
                       selected={targetDate}
                       onSelect={(date) => setTargetDate(date || undefined)}
                       initialFocus
@@ -148,16 +148,16 @@ export default function AdminEvent() {
                 </Popover>
               </div>
 
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="framework">Event Category</Label>
+              <div className='flex flex-col space-y-1.5'>
+                <Label htmlFor='framework'>Event Category</Label>
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger id="framework">
-                    <SelectValue placeholder="Select" />
+                  <SelectTrigger id='framework'>
+                    <SelectValue placeholder='Select' />
                   </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="contest">Contest</SelectItem>
-                    <SelectItem value="tech expo">Tech Expo</SelectItem>
-                    <SelectItem value="call for proposal">
+                  <SelectContent position='popper'>
+                    <SelectItem value='contest'>Contest</SelectItem>
+                    <SelectItem value='tech expo'>Tech Expo</SelectItem>
+                    <SelectItem value='call for proposal'>
                       Call for Proposal
                     </SelectItem>
                   </SelectContent>
@@ -165,20 +165,10 @@ export default function AdminEvent() {
               </div>
             </div>
           </div>
-          <Button className="mt-4 bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 hover:bg-amber-500">
+          <Button className='mt-4 bg-coopBlue text-white font-bold cursor-pointer px-6 py-2 hover:bg-amber-500'>
             Create event
           </Button>
         </form>
-
-        {/* Render the rich text HTML safely using DOMPurify */}
-        {formData.description && (
-          <div
-            className='mt-4'
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(formData.description), // Sanitize and render HTML
-            }}
-          />
-        )}
       </CardContent>
     </Card>
   );

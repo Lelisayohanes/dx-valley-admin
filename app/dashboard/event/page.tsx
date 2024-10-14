@@ -6,7 +6,7 @@ import { Event, columns } from "@/components/events/event-table-columns";
 import { DataTable } from "@/components/events/events-data-table";
 import { Button } from "@/components/ui/button";
 import withAuth from "@/components/withAuth";
-import DOMPurify from "dompurify";
+
 
 const EventPage = () => {
   const [data, setData] = useState<Event[]>([]);
