@@ -225,10 +225,10 @@ model ContactInfo {
 
 model AddressInfo {
   id          Int      @id @default(autoincrement())
-  city        String
-  state       String
-  country     String
-  addressType String // e.g., "Residential", "Business"
+  city        String?
+  state       String?
+  country     String?
+  addressType String? // e.g., "Residential", "Business"
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

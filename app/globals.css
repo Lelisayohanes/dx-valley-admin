@@ -60,6 +60,7 @@
 }
 
 /* globals.css or a specific CSS file */
+<<<<<<< HEAD
 /* .process-direction {
   @apply relative border-t-8 border-dotted border-coopBlue border-y-8 ;
   transform: rotate(117deg);
@@ -67,6 +68,9 @@
   width: 97%;
   top: 10px;
 } */
+=======
+
+>>>>>>> 0d8a2bf1f2b70923674208f3e15545e57fbae63d
  .process-direction {
   @apply absolute !important;
   transform: rotate(89.75deg);
