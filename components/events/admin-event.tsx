@@ -158,20 +158,20 @@ export default function AdminEvent() {
                 onChange={(e) => setName(e.target.value)}
               />
               {!isNameValid && (
-                <p className="text-red-500 text-sm">Name is required.</p>
+                <p className='text-red-500 text-sm'>Name is required.</p>
               )}
             </div>
 
             {/* Markdown Editor for Description */}
-            <div className="flex flex-col space-y-1.5 ">
-              <Label htmlFor="description">Description</Label>
+            <div className='flex flex-col space-y-1.5 '>
+              <Label htmlFor='description'>Description</Label>
               <SimpleMDE
                 value={description}
                 onChange={handleMarkdownChange}
                 options={mdeOptions}
               />
               {!isDescriptionValid && (
-                <p className="text-red-500 text-sm">Description is required.</p>
+                <p className='text-red-500 text-sm'>Description is required.</p>
               )}
             </div>
             <div className='grid grid-cols-2 gap-4'>
@@ -204,7 +204,7 @@ export default function AdminEvent() {
                   </PopoverContent>
                 </Popover>
                 {!isTargetDateValid && (
-                  <p className="text-red-500 text-sm">Date is required.</p>
+                  <p className='text-red-500 text-sm'>Date is required.</p>
                 )}
               </div>
 
@@ -223,7 +223,7 @@ export default function AdminEvent() {
                   </SelectContent>
                 </Select>
                 {!isCategoryValid && (
-                  <p className="text-red-500 text-sm">Category is required.</p>
+                  <p className='text-red-500 text-sm'>Category is required.</p>
                 )}
               </div>
             </div>
