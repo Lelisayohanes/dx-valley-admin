@@ -37,10 +37,8 @@ export function DataTable<TData, TValue>({
     })
 
   return (
-    <div className="">
-        
-
-    <div className="rounded-md border my-8">
+    <div className="flex  flex-col w-full justify-start">
+    <div className="rounded-md border my-8 ">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

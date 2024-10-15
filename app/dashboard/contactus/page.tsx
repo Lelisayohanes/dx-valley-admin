@@ -1,17 +1,18 @@
-import { ContactUs, columns } from "@/components/constactus/contuctus-columns"
-import { DataTable } from "@/components/constactus/contactus-data-table"
+"use client";
+import { useEffect, useState } from "react";
+import { ContactUs, columns } from "@/components/constactus/contuctus-columns";
+import { DataTable } from "@/components/constactus/contactus-data-table";
+import withAuth from "@/components/withAuth";
 
-
-async function getData(): Promise<ContactUs[]> {
+async function fetchContactData(): Promise<ContactUs[]> {
   try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/contactus`);
+    const response = await fetch(`/api/contactus`);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch contact data: ${response.statusText}`);
     }
 
     const data = await response.json();
-    
     console.log('Fetched data:', data); // Log the data to see its structure
 
     // Extract the contact array from the response object
@@ -37,13 +38,39 @@ async function getData(): Promise<ContactUs[]> {
   }
 }
 
-export default async function EventPage() {
-  const data = await getData()
+function ContactUsPage() {
+  const [data, setData] = useState<ContactUs[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null); // State for error handling
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const contactData = await fetchContactData();
+        setData(contactData);
+      } catch (error) {
+        setError((error as Error).message || 'An error occurred while fetching data.'); // Handle error
+      } finally {
+        setLoading(false); // Ensure loading is false
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>; // Display error message
+  }
 
   return (
-    <div className="container mx-auto pt-0 ">
+    <div className="container mx-auto pt-0">
       <DataTable columns={columns} data={data} />
     </div>
-  )
+  );
 }
 
+export default withAuth(ContactUsPage);
