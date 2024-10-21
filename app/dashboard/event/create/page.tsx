@@ -16,5 +16,4 @@ const Page: React.FC<PageProps> = () => {
   );
 };
 
-// Wrap the page component with the withAuth HOC
 export default withAuth(Page);
