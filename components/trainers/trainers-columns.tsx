@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -14,16 +14,15 @@ import {
 import { useEffect, useState } from "react";
 
 export type TrainersData = {
-    id: string;
-    fullName: string;
-    email: string;
-    phone: string;
-    city: string;
-    expertise: string;  
-    profession: string; 
-    schedule: string;
-  };
-  
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  city: string;
+  expertise: string;
+  profession: string;
+  schedule: string;
+};
 
 export const columns: ColumnDef<TrainersData>[] = [
   {
@@ -44,12 +43,15 @@ export const columns: ColumnDef<TrainersData>[] = [
     header: "Expertise",
   },
   {
-    accessorKey: "university",
-    header: "University",
+    accessorKey: "profession",
+    header: "Proffession",
   },
   {
-    accessorKey: "department",
-    header: "Department",
+    accessorKey: "schedule",
+    header: "Schedule",
   },
-  
+  // {
+  //   accessorKey: "department",
+  //   header: "Department",
+  // },
 ];

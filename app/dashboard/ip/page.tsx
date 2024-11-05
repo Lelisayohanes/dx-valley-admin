@@ -5,28 +5,30 @@ import { DataTable } from "@/components/ip/ip-data-table";
 import withAuth from "@/components/withAuth";
 
 // Fetch data from your internal API route
-async function fetchIndependentPartnerData(): Promise<IndependentPartnerData[]> {
+async function fetchIndependentPartnerData(): Promise<
+  IndependentPartnerData[]
+> {
   try {
-    const response = await fetch('/api/independentpartner'); // Fetch from the Next.js API route
+    const response = await fetch("/api/independentpartner/getip"); // Fetch from the Next.js API route
 
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      throw new Error("Failed to fetch data");
     }
 
     const data = await response.json();
 
     // Transform the data
-    return data.independentPartners.map((partner: any) => ({
+    return data.map((partner: any) => ({
       id: partner.id.toString(),
       fullName: `${partner.personalInfo.firstName} ${partner.personalInfo.lastName}`,
-      email: partner.personalInfo.contactInfo[0]?.email || '',
-      phone: partner.personalInfo.contactInfo[0]?.phoneNumberOne || '',
-      city: partner.personalInfo.addressInfo[0]?.city || '',
+      email: partner.personalInfo.contactInfo[0]?.email || "",
+      phone: partner.personalInfo.contactInfo[0]?.phoneNumberOne || "",
+      city: partner.personalInfo.addressInfo[0]?.city || "",
       focusArea: partner.focusArea,
       interestArea: partner.interestArea,
     }));
   } catch (error) {
-    console.error('Error fetching independent partner data:', error);
+    console.error("Error fetching independent partner data:", error);
     throw error; // Rethrow error to handle it in the calling function
   }
 }
@@ -43,7 +45,9 @@ function IndependentPartnerPage() {
         const partners = await fetchIndependentPartnerData();
         setData(partners);
       } catch (error) {
-        setError((error as Error).message || 'An error occurred while fetching data.'); // Handle error properly
+        setError(
+          (error as Error).message || "An error occurred while fetching data."
+        ); // Handle error properly
       } finally {
         setLoading(false); // Ensure loading is false regardless of success or failure
       }
