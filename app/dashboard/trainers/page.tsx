@@ -10,7 +10,7 @@ async function fetchTrainersData(): Promise<TrainersData[]> {
     const response = await fetch(`/api/trainer/gettrainer`); // Fetch from the API route you created
 
     if (!response.ok) {
-      throw new Error('Failed to fetch data');
+      throw new Error("Failed to fetch data");
     }
 
     const data = await response.json();
@@ -18,18 +18,18 @@ async function fetchTrainersData(): Promise<TrainersData[]> {
     // Transform the data to fit your table structure
     const trainers: TrainersData[] = data.map((trainer: any) => ({
       id: trainer.id.toString(),
-      fullName: `${trainer.firstName} ${trainer.lastName}`, // Modify based on actual data structure
-      email: trainer.email || '',
-      phone: trainer.phone || '',
-      city: trainer.city || '',
-      expertise: trainer.expertise || '',
-      profession: trainer.profession || '',
-      schedule: trainer.schedule || ''
+      fullName: `${trainer.personalInfo.firstName} ${trainer.personalInfo.lastName}`, // Modify based on actual data structure
+      email: trainer.personalInfo.contactInfo[0]?.email || "",
+      phone: trainer.personalInfo.contactInfo[0]?.phoneNumberOne || "",
+      city: trainer.city || "",
+      expertise: trainer.expertise || "",
+      profession: trainer.profession || "",
+      schedule: trainer.schedule || "",
     }));
 
     return trainers;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     return []; // Return an empty array in case of an error
   }
 }
@@ -45,7 +45,9 @@ function TrainersPage() {
         const trainers = await fetchTrainersData();
         setData(trainers);
       } catch (error) {
-        setError((error as Error).message || 'An error occurred while fetching data.');
+        setError(
+          (error as Error).message || "An error occurred while fetching data."
+        );
       } finally {
         setLoading(false); // Ensure loading is false after fetching
       }

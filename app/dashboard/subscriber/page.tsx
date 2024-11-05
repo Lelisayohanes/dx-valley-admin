@@ -24,6 +24,7 @@ async function fetchSubscriberData(): Promise<SubscriberData[]> {
     const subscriberData: SubscriberData[] = subscriberArray.map((subscriberItem: any) => ({
       id: subscriberItem.id.toString(),
       subscriberEmail: subscriberItem.email,
+      status:subscriberItem.status,
     }));
 
     return subscriberData;

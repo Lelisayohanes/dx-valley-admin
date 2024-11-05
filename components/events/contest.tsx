@@ -1,8 +1,18 @@
+<<<<<<< HEAD
+/** @format */
+
+=======
+>>>>>>> 311bcd602360021fb008c6248144a2825ca6fec6
 "use client";
 
 import { useEffect, useState } from "react";
 import Countdown from "@/components/events/countdown";
 import { Event } from "@/types/types";
+<<<<<<< HEAD
+// import { Button } from "react-day-picker";
+import { Button } from "../ui/button";
+=======
+>>>>>>> 311bcd602360021fb008c6248144a2825ca6fec6
 
 export default function ContestsPage() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -29,10 +39,19 @@ export default function ContestsPage() {
   }, []);
   const Events = events.filter(
     (event) => event.category !== "call for proposal"
+<<<<<<< HEAD
+
+  );
+console.log(Events.length, "is the event length");
+
+  if (!events) {
+
+=======
   );
   console.log(Events.length, "is the event length");
 
   if (!events) {
+>>>>>>> 311bcd602360021fb008c6248144a2825ca6fec6
     return <div>No Events Found</div>;
   }
 
@@ -41,11 +60,20 @@ export default function ContestsPage() {
       {/* rest of the code remains the same */}
 
       {(Events.length > 0 &&
+<<<<<<< HEAD
+        Events.map((event) => <Countdown key={event?.id} event={event} />)) ||
+         (
+          <div className="col-span-full text-center py-10">
+            <p className="text-lg font-semibold">No Event Available.</p>
+          </div>
+        )}
+=======
         Events.map((event) => <Countdown key={event?.id} event={event} />)) || (
         <div className="col-span-full text-center py-10">
           <p className="text-lg font-semibold">No Event Available.</p>
         </div>
       )}
+>>>>>>> 311bcd602360021fb008c6248144a2825ca6fec6
     </div>
   );
 }
