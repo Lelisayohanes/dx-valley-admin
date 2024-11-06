@@ -79,18 +79,39 @@ const DetailDisplay: React.FC<DetailDisplayProps> = ({ internDetail }) => {
               </tr>
               <tr>
                 <td className="py-2 px-4 font-semibold">Interest Areas:</td>
-                <td className="py-2 px-4">{internDetail.interestAreas.join(", ")}</td>
+                <td className="py-2 px-4">
+                  {internDetail.interestAreas.join(", ")}
+                </td>
               </tr>
               <tr>
                 <td className="py-2 px-4 font-semibold">Other Interests:</td>
                 <td className="py-2 px-4">{internDetail.otherInterests}</td>
               </tr>
-              {internDetail.portfolioLink && (
+              {/* {internDetail.portfolioLink && (
                 <tr>
                   <td className="py-2 px-4 font-semibold">Portfolio:</td>
                   <td className="py-2 px-4">
                     <a
                       href={internDetail.portfolioLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      View
+                    </a>
+                  </td>
+                </tr>
+              )} */}
+              {internDetail.portfolioLink && (
+                <tr>
+                  <td className="py-2 px-4 font-semibold">Portfolio:</td>
+                  <td className="py-2 px-4">
+                    <a
+                      href={
+                        internDetail.portfolioLink.startsWith("http")
+                          ? internDetail.portfolioLink
+                          : `https://${internDetail.portfolioLink}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"
@@ -115,12 +136,14 @@ const DetailDisplay: React.FC<DetailDisplayProps> = ({ internDetail }) => {
                   </td>
                 </tr>
               )}
+
               {internDetail.documentpath && (
                 <tr>
                   <td className="py-2 px-4 font-semibold">Document:</td>
                   <td className="py-2 px-4">
                     <a
                       href={internDetail.documentpath}
+                      download
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:underline"
@@ -134,7 +157,7 @@ const DetailDisplay: React.FC<DetailDisplayProps> = ({ internDetail }) => {
           </table>
         </AlertDialogDescription>
         <AlertDialogFooter className="p-2 border-t border-gray-200">
-          <AlertDialogCancel>Close</AlertDialogCancel>
+          <AlertDialogCancel>Close</AlertDialogCancel> 
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
