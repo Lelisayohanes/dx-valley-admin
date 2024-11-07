@@ -6,7 +6,16 @@ const prisma = new PrismaClient();
 export async function GET() {
   try {
     // Fetch all trainers from the database
-    const trainers = await prisma.trainerInfo.findMany();
+    const trainers = await prisma.trainerInfo.findMany({
+      include: {
+        personalInfo: {
+          include: {
+            contactInfo: true,
+            addressInfo: true,
+          },
+        },
+      },
+    });
 
     // Return the trainers as JSON
     return NextResponse.json(trainers);

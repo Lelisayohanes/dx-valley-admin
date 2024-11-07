@@ -18,9 +18,9 @@ async function fetchTrainersData(): Promise<TrainersData[]> {
     // Transform the data to fit your table structure
     const trainers: TrainersData[] = data.map((trainer: any) => ({
       id: trainer.id.toString(),
-      fullName: `${trainer.firstName} ${trainer.lastName}`, // Modify based on actual data structure
-      email: trainer.email || '',
-      phone: trainer.phone || '',
+      fullName: `${trainer.personalInfo.firstName} ${trainer.personalInfo.lastName}`, // Modify based on actual data structure
+      email: trainer.personalInfo.contactInfo[0]?.email || "",
+      phone: trainer.personalInfo.contactInfo[0]?.phoneNumberOne || "",
       city: trainer.city || '',
       expertise: trainer.expertise || '',
       profession: trainer.profession || '',
