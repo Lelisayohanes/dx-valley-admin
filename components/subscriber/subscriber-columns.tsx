@@ -13,5 +13,8 @@ export const columns: ColumnDef<SubscriberData>[] = [
     accessorKey: "subscriberEmail",
     header: "Subscriber Email",
   },
-  
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
 ];
